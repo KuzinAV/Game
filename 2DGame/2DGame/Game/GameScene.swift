@@ -10,7 +10,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode!
     var score: Int = 0 {
         didSet {
-            scoreLabel.text = "Счет: \(score)"
+            scoreLabel.text = "Score: \(score)"
         }
     }
     
@@ -23,7 +23,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let motionManager = CMMotionManager()
     var xAccelerate: CGFloat = 0
     
+    var livesArray: [SKSpriteNode]!
+    
     override func didMove(to view: SKView) {
+        
+        addLives()
+        
         let backgroundTexture = SKTexture(imageNamed: "background")
         starfield = SKSpriteNode (texture: backgroundTexture)
         starfield?.position = CGPoint(x: 0, y: 0)
@@ -32,8 +37,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let shuttleTexture = SKTexture(imageNamed: "shuttle")
         player = SKSpriteNode(texture: shuttleTexture)
-        player.setScale(3.0)
-        player?.position = CGPoint(x: 0, y: -500)
+        player.setScale(1.75)
+        player?.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: 50)
         self.addChild(player)
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0) // гравитация
@@ -41,14 +46,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         scoreLabel = SKLabelNode(text: "Счет: 0")
         scoreLabel.fontName = "AmericanTypewriter-Bold"
-        scoreLabel.fontSize = 36
+        scoreLabel.fontSize = 35
         scoreLabel.fontColor = .white
-        scoreLabel.position = CGPoint(x: 200, y: 550)
+        scoreLabel.position = CGPoint(x: 80, y: UIScreen.main.bounds.height - 50)
         score = 0
         
         self.addChild(scoreLabel)
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(addComet), userInfo: nil, repeats: true)
+        var timeAttack = 0.75
+        
+        if UserDefaults.standard.bool(forKey: "hard") {
+            timeAttack = 0.3
+        }
+        
+        gameTimer = Timer.scheduledTimer(timeInterval: timeAttack, target: self, selector: #selector(addComet), userInfo: nil, repeats: true)
         
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data: CMAccelerometerData?, error: Error?) in
@@ -59,13 +70,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func addLives() {
+        livesArray = [SKSpriteNode]()
+        for live in 1...3 {
+            let liveNode = SKSpriteNode(imageNamed: "live")
+            let liveSize: CGFloat = 0.6
+            liveNode.position = CGPoint(x: self.frame.size.width - CGFloat(4 - live) * ((liveNode.size.width * liveSize) - liveSize), y: self.frame.size.height - 40)
+            liveNode.setScale(0.5)
+            self.addChild(liveNode)
+            livesArray.append(liveNode)
+        }
+    }
+    
     override func didSimulatePhysics() {
         player.position.x += xAccelerate * 50
         
-        if player.position.x < -350 {
-            player.position = CGPoint(x: 350, y: player.position.y)
-        } else if player.position.x > 350 {
-            player.position = CGPoint(x: -350, y: player.position.y)
+        if player.position.x < 0 {
+            player.position = CGPoint(x: UIScreen.main.bounds.width - player.size.width, y: player.position.y)
+        } else if player.position.x > UIScreen.main.bounds.width {
+            player.position = CGPoint(x: 20, y: player.position.y)
         }
     }
     
@@ -110,13 +133,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         comets = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: comets) as! [String]
         
         let comet = SKSpriteNode(imageNamed: comets[0])
-        comet.setScale(1.5)
-        let randomPosition = GKRandomDistribution(lowestValue: -350, highestValue: 350)
+        comet.setScale(0.75)
+        let randomPosition = GKRandomDistribution(lowestValue: 20, highestValue: Int(UIScreen.main.bounds.size.width - 20))
         let pos = CGFloat(randomPosition.nextInt())
-        comet.position = CGPoint(x: pos, y: 800)
+        comet.position = CGPoint(x: pos, y: UIScreen.main.bounds.size.height + comet.size.height)
         
         comet.physicsBody = SKPhysicsBody(rectangleOf: comet.size)
         comet.physicsBody?.isDynamic = true
+        
         comet.physicsBody?.categoryBitMask = cometCategory
         comet.physicsBody?.contactTestBitMask = shotCategory
         comet.physicsBody?.collisionBitMask = 0
@@ -126,7 +150,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let animDuration: TimeInterval = 6
         
         var actions = [SKAction]()
-        actions.append(SKAction.move(to: CGPoint(x: pos, y: -800), duration: animDuration))
+        
+        actions.append(SKAction.move(to: CGPoint(x: pos, y: 0 - comet.size.height), duration: animDuration))
+        actions.append(SKAction.run {
+            self.run(SKAction.playSoundFileNamed("loss", waitForCompletion: false))
+            if self.livesArray.count > 0 {
+                let liveNode = self.livesArray.first
+                liveNode!.removeFromParent()
+                self.livesArray.removeFirst()
+                
+                if self.livesArray.count == 0 {
+                    // GameOverScreen
+                }
+            }
+        })
         actions.append(SKAction.removeFromParent())
         
         comet.run(SKAction.sequence(actions))
@@ -145,7 +182,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         shot.physicsBody = SKPhysicsBody(circleOfRadius: shot.size.width)
         shot.physicsBody?.isDynamic = true
-        shot.setScale(2)
+        shot.setScale(1.25)
         shot.physicsBody?.categoryBitMask = shotCategory
         shot.physicsBody?.contactTestBitMask = cometCategory
         shot.physicsBody?.collisionBitMask = 0
@@ -156,7 +193,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let animDuration: TimeInterval = 0.3
         
         var actions = [SKAction]()
-        actions.append(SKAction.move(to: CGPoint(x: player.position.x, y: 800), duration: animDuration))
+        actions.append(SKAction.move(to: CGPoint(x: player.position.x, y: UIScreen.main.bounds.size.height + shot.size.height), duration: animDuration))
         actions.append(SKAction.removeFromParent())
         
         shot.run(SKAction.sequence(actions))

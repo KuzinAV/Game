@@ -17,6 +17,9 @@
 		7C8857162A9CE04A0045C4B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C8857142A9CE04A0045C4B0 /* LaunchScreen.storyboard */; };
 		7C88571D2A9CE7F30045C4B0 /* vzriv.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C88571C2A9CE7F30045C4B0 /* vzriv.wav */; };
 		7C88571F2A9CE8100045C4B0 /* bullet.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C88571E2A9CE8100045C4B0 /* bullet.wav */; };
+		7CBBB3BF2AA49B51004FFB44 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB3BE2AA49B51004FFB44 /* MainMenu.sks */; };
+		7CBBB3C12AA49D8E004FFB44 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBB3C02AA49D8E004FFB44 /* MainMenu.swift */; };
+		7CBBB3C62AA4F081004FFB44 /* loss.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CBBB3C52AA4F081004FFB44 /* loss.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +34,9 @@
 		7C8857152A9CE04A0045C4B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C88571C2A9CE7F30045C4B0 /* vzriv.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = vzriv.wav; sourceTree = "<group>"; };
 		7C88571E2A9CE8100045C4B0 /* bullet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bullet.wav; sourceTree = "<group>"; };
+		7CBBB3BE2AA49B51004FFB44 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
+		7CBBB3C02AA49D8E004FFB44 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		7CBBB3C52AA4F081004FFB44 /* loss.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = loss.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,15 +72,42 @@
 				7C8857052A9CE0490045C4B0 /* AppDelegate.swift */,
 				7C8857072A9CE0490045C4B0 /* GameScene.sks */,
 				7C8857092A9CE0490045C4B0 /* Actions.sks */,
-				7C88570B2A9CE0490045C4B0 /* GameScene.swift */,
 				7C88570D2A9CE0490045C4B0 /* GameViewController.swift */,
-				7C88571C2A9CE7F30045C4B0 /* vzriv.wav */,
-				7C88571E2A9CE8100045C4B0 /* bullet.wav */,
 				7C88570F2A9CE0490045C4B0 /* Main.storyboard */,
+				7CBBB3C22AA4E32A004FFB44 /* Game */,
+				7CBBB3C32AA4E341004FFB44 /* Menu */,
+				7CBBB3C42AA4E350004FFB44 /* Sound */,
 				7C8857122A9CE04A0045C4B0 /* Assets.xcassets */,
 				7C8857142A9CE04A0045C4B0 /* LaunchScreen.storyboard */,
 			);
 			path = 2DGame;
+			sourceTree = "<group>";
+		};
+		7CBBB3C22AA4E32A004FFB44 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				7C88570B2A9CE0490045C4B0 /* GameScene.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		7CBBB3C32AA4E341004FFB44 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				7CBBB3BE2AA49B51004FFB44 /* MainMenu.sks */,
+				7CBBB3C02AA49D8E004FFB44 /* MainMenu.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		7CBBB3C42AA4E350004FFB44 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				7C88571C2A9CE7F30045C4B0 /* vzriv.wav */,
+				7C88571E2A9CE8100045C4B0 /* bullet.wav */,
+				7CBBB3C52AA4F081004FFB44 /* loss.wav */,
+			);
+			path = Sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +173,8 @@
 				7C8857082A9CE0490045C4B0 /* GameScene.sks in Resources */,
 				7C8857132A9CE04A0045C4B0 /* Assets.xcassets in Resources */,
 				7C88571D2A9CE7F30045C4B0 /* vzriv.wav in Resources */,
+				7CBBB3BF2AA49B51004FFB44 /* MainMenu.sks in Resources */,
+				7CBBB3C62AA4F081004FFB44 /* loss.wav in Resources */,
 				7C8857162A9CE04A0045C4B0 /* LaunchScreen.storyboard in Resources */,
 				7C88570A2A9CE0490045C4B0 /* Actions.sks in Resources */,
 			);
@@ -155,6 +190,7 @@
 				7C88570C2A9CE0490045C4B0 /* GameScene.swift in Sources */,
 				7C88570E2A9CE0490045C4B0 /* GameViewController.swift in Sources */,
 				7C8857062A9CE0490045C4B0 /* AppDelegate.swift in Sources */,
+				7CBBB3C12AA49D8E004FFB44 /* MainMenu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
