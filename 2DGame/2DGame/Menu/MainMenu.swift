@@ -8,7 +8,7 @@
 import SpriteKit
 
 class MainMenu: SKScene {
-
+    
     //var backgroundMenu: SKSpriteNode!
     
     var newGameButton: SKSpriteNode!
@@ -17,7 +17,7 @@ class MainMenu: SKScene {
     
     override func didMove(to view: SKView) {
         //backgroundMenu = self.childNode(withName: "background") as? SKSpriteNode
- 
+        
         newGameButton = self.childNode(withName: "newGameButton") as? SKSpriteNode
         
         levelButton = self.childNode(withName: "levelButton") as? SKSpriteNode
