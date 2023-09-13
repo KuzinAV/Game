@@ -9,14 +9,15 @@ import SpriteKit
 
 class MainMenu: SKScene {
     
-    //var backgroundMenu: SKSpriteNode!
+    var backgroundMenu: SKEmitterNode!
     
     var newGameButton: SKSpriteNode!
     var levelButton: SKSpriteNode!
     var labelLevel: SKLabelNode!
     
     override func didMove(to view: SKView) {
-        //backgroundMenu = self.childNode(withName: "background") as? SKSpriteNode
+        backgroundMenu = self.childNode(withName: "background") as? SKEmitterNode
+        backgroundMenu.advanceSimulationTime(3)
         
         newGameButton = self.childNode(withName: "newGameButton") as? SKSpriteNode
         
@@ -26,10 +27,12 @@ class MainMenu: SKScene {
         
         let userLevel = UserDefaults.standard
         
-        if userLevel.bool(forKey: "hard") {
-            labelLevel.text = "Hard"
-        } else {
+        if userLevel.bool(forKey: "easy") {
             labelLevel.text = "Easy"
+        } else if userLevel.bool(forKey: "medium"){
+            labelLevel.text = "Medium"
+        } else {
+            labelLevel.text = "Hard"
         }
     }
     
@@ -53,12 +56,16 @@ class MainMenu: SKScene {
         let userLevel = UserDefaults.standard
         
         if labelLevel.text == "Easy" {
+            labelLevel.text = "Medium"
+            userLevel.set(true, forKey: "medium")
+        } else if labelLevel.text == "Medium" {
             labelLevel.text = "Hard"
             userLevel.set(true, forKey: "hard")
         } else {
             labelLevel.text = "Easy"
-            userLevel.set(false, forKey: "hard")
+            userLevel.set(true, forKey: "easy")
         }
+
         
         userLevel.synchronize()
     }
