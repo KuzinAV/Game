@@ -27,13 +27,7 @@ class MainMenu: SKScene {
         
         let userLevel = UserDefaults.standard
         
-        if userLevel.bool(forKey: "easy") {
-            labelLevel.text = "Easy"
-        } else if userLevel.bool(forKey: "medium"){
-            labelLevel.text = "Medium"
-        } else {
-            labelLevel.text = "Hard"
-        }
+        labelLevel.text = userLevel.bool(forKey: "easy") ? "Easy" : (userLevel.bool(forKey: "medium") ? "Medium" : "Hard")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -51,21 +45,23 @@ class MainMenu: SKScene {
             }
         }
     }
-    
+    // Запоминает уровень в памяти
     func changeLevel() {
         let userLevel = UserDefaults.standard
         
         if labelLevel.text == "Easy" {
             labelLevel.text = "Medium"
             userLevel.set(true, forKey: "medium")
+            userLevel.set(false, forKey: "hard")
         } else if labelLevel.text == "Medium" {
             labelLevel.text = "Hard"
+            userLevel.set(true, forKey: "medium")
             userLevel.set(true, forKey: "hard")
         } else {
             labelLevel.text = "Easy"
-            userLevel.set(true, forKey: "easy")
+            userLevel.set(false, forKey: "medium")
+            userLevel.set(false, forKey: "hard")
         }
-
         
         userLevel.synchronize()
     }

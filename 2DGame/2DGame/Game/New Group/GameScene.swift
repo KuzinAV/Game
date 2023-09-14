@@ -11,9 +11,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score: Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
-            //if score >= 20{
-            //    addLife()
-            //}
         }
     }
     
@@ -56,15 +53,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.addChild(scoreLabel)
         
-        var timeAttack: Double = 1.2
+        var timeAttack: Double = 1.5
         
-        if UserDefaults.standard.bool(forKey: "easy") {
-            timeAttack = 0.9
-        } else if UserDefaults.standard.bool(forKey: "medium") {
-            timeAttack = 0.6
-        } else {
-            timeAttack = 0.3
+        //if UserDefaults.standard.bool(forKey: "medium") {
+        //    timeAttack = 1.0
+        //} else if UserDefaults.standard.bool(forKey: "hard"){
+        //    timeAttack = 0.3
+        //}
+        if UserDefaults.standard.bool(forKey: "hard") {
+            timeAttack = 0.1
+        } else if UserDefaults.standard.bool(forKey: "medium"){
+            timeAttack = 1.0
+        } else if UserDefaults.standard.bool(forKey: "easy"){
+            timeAttack = 2.0
         }
+        //if UserDefaults.standard.bool(forKey: "easy") {
+        //    timeAttack = 0.9
+        //} else if UserDefaults.standard.bool(forKey: "medium") {
+        //    timeAttack = 0.6
+        //} else {
+        //    timeAttack = 0.3
+        //}
         
         gameTimer = Timer.scheduledTimer(timeInterval: timeAttack, target: self, selector: #selector(addComet), userInfo: nil, repeats: true)
         
@@ -86,9 +95,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             liveNode.setScale(0.5)
             self.addChild(liveNode)
             livesArray.append(liveNode)
-        }
-        if score >= 500 {
-            addNewLife()
         }
     }
     

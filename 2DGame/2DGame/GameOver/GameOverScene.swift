@@ -10,11 +10,16 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
+    var background: SKEmitterNode!
+    
     var score: Int = 0
     var scoreLabel: SKLabelNode!
     var newGameButton: SKSpriteNode!
     
     override func didMove(to view: SKView) {
+        background = self.childNode(withName: "background") as? SKEmitterNode
+        background.advanceSimulationTime(3)
+        
         scoreLabel = self.childNode(withName: "scoreLabel") as? SKLabelNode
         scoreLabel.text = "\(score)"
         
