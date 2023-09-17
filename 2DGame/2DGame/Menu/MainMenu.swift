@@ -8,16 +8,17 @@
 import SpriteKit
 
 class MainMenu: SKScene {
-
-    //var backgroundMenu: SKSpriteNode!
+    
+    var backgroundMenu: SKEmitterNode!
     
     var newGameButton: SKSpriteNode!
     var levelButton: SKSpriteNode!
     var labelLevel: SKLabelNode!
     
     override func didMove(to view: SKView) {
-        //backgroundMenu = self.childNode(withName: "background") as? SKSpriteNode
- 
+        backgroundMenu = self.childNode(withName: "background") as? SKEmitterNode
+        backgroundMenu.advanceSimulationTime(3)
+        
         newGameButton = self.childNode(withName: "newGameButton") as? SKSpriteNode
         
         levelButton = self.childNode(withName: "levelButton") as? SKSpriteNode
@@ -26,11 +27,7 @@ class MainMenu: SKScene {
         
         let userLevel = UserDefaults.standard
         
-        if userLevel.bool(forKey: "hard") {
-            labelLevel.text = "Hard"
-        } else {
-            labelLevel.text = "Easy"
-        }
+        labelLevel.text = userLevel.bool(forKey: "easy") ? "Easy" : (userLevel.bool(forKey: "medium") ? "Medium" : "Hard")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -48,15 +45,21 @@ class MainMenu: SKScene {
             }
         }
     }
-    
+    // Запоминает уровень в памяти
     func changeLevel() {
         let userLevel = UserDefaults.standard
         
         if labelLevel.text == "Easy" {
+            labelLevel.text = "Medium"
+            userLevel.set(true, forKey: "medium")
+            userLevel.set(false, forKey: "hard")
+        } else if labelLevel.text == "Medium" {
             labelLevel.text = "Hard"
+            userLevel.set(true, forKey: "medium")
             userLevel.set(true, forKey: "hard")
         } else {
             labelLevel.text = "Easy"
+            userLevel.set(false, forKey: "medium")
             userLevel.set(false, forKey: "hard")
         }
         
