@@ -80,7 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				7C8857052A9CE0490045C4B0 /* AppDelegate.swift */,
-				7C8857072A9CE0490045C4B0 /* GameScene.sks */,
 				7C8857092A9CE0490045C4B0 /* Actions.sks */,
 				7C88570D2A9CE0490045C4B0 /* GameViewController.swift */,
 				7C88570F2A9CE0490045C4B0 /* Main.storyboard */,
@@ -108,6 +107,7 @@
 		7CBBB3C22AA4E32A004FFB44 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				7C8857072A9CE0490045C4B0 /* GameScene.sks */,
 				7C9BAB3E2AAE1BC700A08B69 /* GameScene.swift */,
 			);
 			path = Game;

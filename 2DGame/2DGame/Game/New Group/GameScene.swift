@@ -24,8 +24,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var xAccelerate: CGFloat = 0
     
     var livesArray: [SKSpriteNode]!
+    var livesLabel: SKLabelNode!
     
     override func didMove(to view: SKView) {
+        super.didMove(to: view)
+        self.size = view.bounds.size
         
         addLives()
         
@@ -52,28 +55,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
         
         self.addChild(scoreLabel)
+
+        var timeAttack: Double = 1
         
-        var timeAttack: Double = 1.5
-        
-        //if UserDefaults.standard.bool(forKey: "medium") {
-        //    timeAttack = 1.0
-        //} else if UserDefaults.standard.bool(forKey: "hard"){
-        //    timeAttack = 0.3
-        //}
         if UserDefaults.standard.bool(forKey: "hard") {
-            timeAttack = 0.1
-        } else if UserDefaults.standard.bool(forKey: "medium"){
-            timeAttack = 1.0
-        } else if UserDefaults.standard.bool(forKey: "easy"){
-            timeAttack = 2.0
+            timeAttack = 0.5
         }
-        //if UserDefaults.standard.bool(forKey: "easy") {
-        //    timeAttack = 0.9
-        //} else if UserDefaults.standard.bool(forKey: "medium") {
-        //    timeAttack = 0.6
-        //} else {
-        //    timeAttack = 0.3
-        //}
         
         gameTimer = Timer.scheduledTimer(timeInterval: timeAttack, target: self, selector: #selector(addComet), userInfo: nil, repeats: true)
         
@@ -91,25 +78,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for live in 1...3 {
             let liveNode = SKSpriteNode(imageNamed: "live")
             let liveSize: CGFloat = 0.6
-            liveNode.position = CGPoint(x: self.frame.size.width - CGFloat(4 - live) * ((liveNode.size.width * liveSize) - liveSize), y: self.frame.size.height - 40)
+            liveNode.position = CGPoint(x: self.frame.size.width - CGFloat(4 - live) * ((liveNode.size.width * liveSize) - liveSize)-40, y: self.frame.size.height - 40)
             liveNode.setScale(0.5)
             self.addChild(liveNode)
             livesArray.append(liveNode)
         }
     }
-    
+
+    //Добавление жизни за очки
     func addNewLife() {
         if let lastLive = livesArray.last {
             let newLive = SKSpriteNode(imageNamed: "live")
             let liveSize: CGFloat = 0.6
-            newLive.position = CGPoint(x: lastLive.position.x + (lastLive.size.width * liveSize) + 10, y: self.frame.size.height - 40)
+            newLive.position = CGPoint(x: lastLive.position.x + (lastLive.size.width * liveSize) + 25, y: self.frame.size.height - 40)
             newLive.setScale(0.5)
             self.addChild(newLive)
             livesArray.append(newLive)
-            
         }
     }
-    
     override func didSimulatePhysics() {
         player.position.x += xAccelerate * 50
         
@@ -155,6 +141,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         score += 5
+        if score >= 10 {
+            addNewLife()
+        }
     }
     
     @objc func addComet() {
@@ -190,6 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.livesArray.count == 0 {
                     let transition = SKTransition.flipHorizontal(withDuration: 0.5)
                     let gameOver = SKScene(fileNamed: "GameOverScene") as? GameOverScene
+                    gameOver?.scaleMode = .aspectFill
                     gameOver!.score = self.score
                     self.view?.presentScene(gameOver!, transition: transition)
                 }
