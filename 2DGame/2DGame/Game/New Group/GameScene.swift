@@ -59,7 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var timeAttack: Double = 1
         
         if UserDefaults.standard.bool(forKey: "hard") {
-            timeAttack = 0.5
+            timeAttack = 0.2
         }
         
         gameTimer = Timer.scheduledTimer(timeInterval: timeAttack, target: self, selector: #selector(addComet), userInfo: nil, repeats: true)
@@ -119,7 +119,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if (cometBody.categoryBitMask & cometCategory) != 0 && (shotBody.categoryBitMask & shotCategory) != 0 {
-            //collisionElements(shotNode: shotBody.node as! SKSpriteNode, cometNode: cometBody.node as! SKSpriteNode)
             if let shotNode = shotBody.node as? SKSpriteNode, let cometNode = cometBody.node as? SKSpriteNode {
                 collisionElements(shotNode: shotNode, cometNode: cometNode)
             }
@@ -141,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         score += 5
-        if score >= 10 {
+        if score % 10 == 0 {
             addNewLife()
         }
     }

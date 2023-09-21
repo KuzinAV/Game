@@ -80,9 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				7C8857052A9CE0490045C4B0 /* AppDelegate.swift */,
-				7C8857092A9CE0490045C4B0 /* Actions.sks */,
-				7C88570D2A9CE0490045C4B0 /* GameViewController.swift */,
-				7C88570F2A9CE0490045C4B0 /* Main.storyboard */,
 				7C9BAB402AAE1C2000A08B69 /* GameOver */,
 				7CBBB3C92AA720F0004FFB44 /* Animation */,
 				7CBBB3C22AA4E32A004FFB44 /* Game */,
@@ -90,7 +87,9 @@
 				7CBBB3C42AA4E350004FFB44 /* Sound */,
 				7C8857122A9CE04A0045C4B0 /* Assets.xcassets */,
 				7CBBB3CB2AA72285004FFB44 /* Assets.xcassets */,
+				7C8857092A9CE0490045C4B0 /* Actions.sks */,
 				7C8857142A9CE04A0045C4B0 /* LaunchScreen.storyboard */,
+				7C88570F2A9CE0490045C4B0 /* Main.storyboard */,
 			);
 			path = 2DGame;
 			sourceTree = "<group>";
@@ -116,6 +115,7 @@
 		7CBBB3C32AA4E341004FFB44 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				7C88570D2A9CE0490045C4B0 /* GameViewController.swift */,
 				7CBBB3BE2AA49B51004FFB44 /* MainMenu.sks */,
 				7CBBB3C02AA49D8E004FFB44 /* MainMenu.swift */,
 			);
