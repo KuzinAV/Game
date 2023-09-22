@@ -7,21 +7,31 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 class InfoScene: SKScene {
     
     var infoBackground: SKEmitterNode!
+    
     var backButton: SKSpriteNode!
+    
     var infoLabel: SKLabelNode!
     
+    var backgroundSound: AVAudioPlayer?
+    
     override func didMove(to view: SKView) {
+        let soundURL = Bundle.main.url(forResource: "InfoBackground", withExtension: "mp3")
+        backgroundSound = try? AVAudioPlayer(contentsOf: soundURL!)
+        backgroundSound?.prepareToPlay()
+        backgroundSound?.play()
+        
         infoBackground = self.childNode(withName: "infoBackground") as? SKEmitterNode
         infoBackground.advanceSimulationTime(3)
         
         backButton = self.childNode(withName: "backButton") as? SKSpriteNode
         
         infoLabel = self.childNode(withName: "infoLabel") as? SKLabelNode
-        infoLabel.text = "Thank you, dear friend, for downloading this game.It was my graduation project, and I hopeit brought you more joy than it tested my nerves.I want to express special thanks for your mentorship Darya Astapova and Roman Kniukh"
+        infoLabel.text = "Thank you, dear friend, for downloading this game.It was my graduation project, and I hopeit brought you more joy than it tested my nerves.I want to express special thanks for your mentorship Darya Astapava and Roman Kniukh"
         infoLabel.preferredMaxLayoutWidth = self.frame.size.width * 0.9
         infoLabel.horizontalAlignmentMode = .center
         let constraintX = SKConstraint.positionX(SKRange(constantValue: 375))

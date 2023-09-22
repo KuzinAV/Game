@@ -88,6 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func addNewLife() {
         livesCount += 1
+        self.run(SKAction.playSoundFileNamed("newLife", waitForCompletion: false))
     }
 
     override func didSimulatePhysics() {

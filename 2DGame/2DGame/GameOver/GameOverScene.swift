@@ -36,12 +36,9 @@ class GameOverScene: SKScene {
         
         backButton = self.childNode(withName: "backButton") as? SKSpriteNode
         
-        // Загрузка лучшего результата из UserDefaults
         let bestScore = UserDefaults.standard.integer(forKey: "BestScore")
 
-        // Проверка, является ли текущий результат лучшим
         if score > bestScore {
-            // Сохранение нового лучшего результата в UserDefaults
             UserDefaults.standard.set(score, forKey: "BestScore")
             UserDefaults.standard.synchronize()
 
@@ -49,7 +46,6 @@ class GameOverScene: SKScene {
         bestScoreLabel = self.childNode(withName: "bestScoreLabel") as? SKLabelNode
         bestScoreLabel.text = "BEST SCORE: \(bestScore)"
         
-        // Add a delay of 1 second before playing the sound
         let waitAction = SKAction.wait(forDuration: 0.5)
         let playSoundAction = SKAction.run { [weak self] in
             self?.playGameOverSound()
