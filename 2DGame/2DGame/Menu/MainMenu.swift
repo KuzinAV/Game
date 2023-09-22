@@ -10,9 +10,10 @@ import SpriteKit
 class MainMenu: SKScene {
     
     var backgroundMenu: SKEmitterNode!
-    
+
     var newGameButton: SKSpriteNode!
     var levelButton: SKSpriteNode!
+    var infoButton: SKSpriteNode!
     var labelLevel: SKLabelNode!
     
     override func didMove(to view: SKView) {
@@ -24,6 +25,8 @@ class MainMenu: SKScene {
         levelButton = self.childNode(withName: "levelButton") as? SKSpriteNode
         
         labelLevel = self.childNode(withName: "labelLevel") as? SKLabelNode
+        
+        infoButton = self.childNode(withName: "infoButton") as? SKSpriteNode
         
         let userLevel = UserDefaults.standard
         
@@ -44,7 +47,12 @@ class MainMenu: SKScene {
                 let transition = SKTransition.flipVertical(withDuration: 0.5)
                 let gameScene = GameScene(size: UIScreen.main.bounds.size)
                 self.view?.presentScene(gameScene, transition: transition)
-            } else if nodesArray.first?.name == "levelButton" {
+            } else if nodesArray.first?.name == "infoButton" {
+                let transition = SKTransition.flipVertical(withDuration: 0.5)
+                let info = SKScene(fileNamed: "InfoScene") as? InfoScene
+                info?.scaleMode = .aspectFill
+                self.view?.presentScene(info!, transition: transition)
+            }  else if nodesArray.first?.name == "levelButton" {
                 changeLevel()
             }
         }

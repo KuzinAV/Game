@@ -23,8 +23,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let motionManager = CMMotionManager()
     var xAccelerate: CGFloat = 0
     
-    var livesArray: [SKSpriteNode]!
-    var livesLabel: SKLabelNode!
+    var livesCountLabel: SKLabelNode!
+    var livesCount: Int = 3 {
+        didSet {
+            livesCountLabel.text = "\(livesCount) x \u{2764}\u{FE0F}"
+        }
+    }
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -51,7 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.fontName = "AmericanTypewriter-Bold"
         scoreLabel.fontSize = 35
         scoreLabel.fontColor = .white
-        scoreLabel.position = CGPoint(x: 80, y: UIScreen.main.bounds.height - 50)
+        scoreLabel.position = CGPoint(x: 85, y: UIScreen.main.bounds.height - 50)
         score = 0
         
         self.addChild(scoreLabel)
@@ -74,28 +78,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addLives() {
-        livesArray = [SKSpriteNode]()
-        for live in 1...3 {
-            let liveNode = SKSpriteNode(imageNamed: "live")
-            let liveSize: CGFloat = 0.6
-            liveNode.position = CGPoint(x: self.frame.size.width - CGFloat(4 - live) * ((liveNode.size.width * liveSize) - liveSize)-40, y: self.frame.size.height - 40)
-            liveNode.setScale(0.5)
-            self.addChild(liveNode)
-            livesArray.append(liveNode)
-        }
+        livesCountLabel = SKLabelNode(text: "\(livesCount) x \u{2764}\u{FE0F}")
+        livesCountLabel.position = CGPoint(x: self.frame.size.width - 70, y: self.frame.size.height - 50)
+        livesCountLabel.fontName = "AmericanTypewriter-Bold"
+        livesCountLabel.fontSize = 35
+        livesCountLabel.fontColor = .white
+        self.addChild(livesCountLabel)
     }
 
-    //Добавление жизни за очки
     func addNewLife() {
-        if let lastLive = livesArray.last {
-            let newLive = SKSpriteNode(imageNamed: "live")
-            let liveSize: CGFloat = 0.6
-            newLive.position = CGPoint(x: lastLive.position.x + (lastLive.size.width * liveSize) + 25, y: self.frame.size.height - 40)
-            newLive.setScale(0.5)
-            self.addChild(newLive)
-            livesArray.append(newLive)
-        }
+        livesCount += 1
     }
+
     override func didSimulatePhysics() {
         player.position.x += xAccelerate * 50
         
@@ -170,20 +164,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         actions.append(SKAction.move(to: CGPoint(x: pos, y: 0 - comet.size.height), duration: animDuration))
         actions.append(SKAction.run {
             self.run(SKAction.playSoundFileNamed("loss", waitForCompletion: false))
-            if self.livesArray.count > 0 {
-                let liveNode = self.livesArray.first
-                liveNode!.removeFromParent()
-                self.livesArray.removeFirst()
-                
-                if self.livesArray.count == 0 {
-                    let transition = SKTransition.flipHorizontal(withDuration: 0.5)
-                    let gameOver = SKScene(fileNamed: "GameOverScene") as? GameOverScene
-                    gameOver?.scaleMode = .aspectFill
-                    gameOver!.score = self.score
-                    self.view?.presentScene(gameOver!, transition: transition)
+            
+            if self.livesCount > 0 {
+                    self.livesCount -= 1
+                    if self.livesCount == 0 {
+                        let transition = SKTransition.crossFade(withDuration: 0.1)
+                        if let gameOverScene = GameOverScene(fileNamed: "GameOverScene") {
+                            gameOverScene.scaleMode = .aspectFill
+                            gameOverScene.score = self.score
+                            self.view?.presentScene(gameOverScene, transition: transition)
+                        }
+                    }
                 }
-            }
-        })
+            })
+
         actions.append(SKAction.removeFromParent())
         
         comet.run(SKAction.sequence(actions))

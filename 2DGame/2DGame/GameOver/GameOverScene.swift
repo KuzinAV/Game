@@ -6,18 +6,20 @@
 //
 import UIKit
 import SpriteKit
+import AVFoundation
 
 class GameOverScene: SKScene {
     
     var background: SKEmitterNode!
     var explosion: SKEmitterNode!
     
-    
     var score: Int = 0
     var scoreLabel: SKLabelNode!
     var newGameButton: SKSpriteNode!
     var backButton: SKSpriteNode!
     var bestScoreLabel: SKLabelNode!
+    
+    var gameOverSound: AVAudioPlayer?
     
     override func didMove(to view: SKView) {
         background = self.childNode(withName: "background") as? SKEmitterNode
@@ -46,7 +48,22 @@ class GameOverScene: SKScene {
         }
         bestScoreLabel = self.childNode(withName: "bestScoreLabel") as? SKLabelNode
         bestScoreLabel.text = "BEST SCORE: \(bestScore)"
- }
+        
+        // Add a delay of 1 second before playing the sound
+        let waitAction = SKAction.wait(forDuration: 0.5)
+        let playSoundAction = SKAction.run { [weak self] in
+            self?.playGameOverSound()
+        }
+        let sequence = SKAction.sequence([waitAction, playSoundAction])
+        self.run(sequence)
+    }
+    
+    func playGameOverSound() {
+        let soundURL = Bundle.main.url(forResource: "GameOver", withExtension: "mp3")
+        gameOverSound = try? AVAudioPlayer(contentsOf: soundURL!)
+        gameOverSound?.prepareToPlay()
+        gameOverSound?.play()
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
@@ -69,4 +86,3 @@ class GameOverScene: SKScene {
         }
     }
 }
-
