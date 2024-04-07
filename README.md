@@ -1,6 +1,6 @@
 # About The Project
 
-The goal of the project is to create a collection of classic 2D games for IOS
+The goal of the project is to create a collection of classic 2D games for iOS
 
 ### Built With
 
