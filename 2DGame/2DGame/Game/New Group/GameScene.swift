@@ -55,7 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.fontName = "AmericanTypewriter-Bold"
         scoreLabel.fontSize = 35
         scoreLabel.fontColor = .white
-        scoreLabel.position = CGPoint(x: 85, y: UIScreen.main.bounds.height - 50)
+        scoreLabel.position = CGPoint(x: 85, y: UIScreen.main.bounds.height - 100)
         score = 0
         
         self.addChild(scoreLabel)
@@ -79,7 +79,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addLives() {
         livesCountLabel = SKLabelNode(text: "\(livesCount) x \u{2764}\u{FE0F}")
-        livesCountLabel.position = CGPoint(x: self.frame.size.width - 70, y: self.frame.size.height - 50)
+        livesCountLabel.position = CGPoint(x: self.frame.size.width - 70, y: self.frame.size.height - 100)
         livesCountLabel.fontName = "AmericanTypewriter-Bold"
         livesCountLabel.fontSize = 35
         livesCountLabel.fontColor = .white

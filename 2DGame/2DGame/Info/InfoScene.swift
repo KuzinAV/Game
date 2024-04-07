@@ -11,14 +11,14 @@ import AVFoundation
 
 class InfoScene: SKScene {
     
+    //MARK: -Properties
     var infoBackground: SKEmitterNode!
-    
     var backButton: SKSpriteNode!
-    
     var infoLabel: SKLabelNode!
-    
     var backgroundSound: AVAudioPlayer?
     
+    
+    //MARK: -Lifecycle Methods
     override func didMove(to view: SKView) {
         let soundURL = Bundle.main.url(forResource: "InfoBackground", withExtension: "mp3")
         backgroundSound = try? AVAudioPlayer(contentsOf: soundURL!)
@@ -39,6 +39,7 @@ class InfoScene: SKScene {
         infoLabel.constraints = [constraintX, constraintY]
     }
     
+    //MARK: -Touch Handling
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         if let location = touch?.location(in: self) {

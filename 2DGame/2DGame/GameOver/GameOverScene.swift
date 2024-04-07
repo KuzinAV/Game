@@ -10,6 +10,7 @@ import AVFoundation
 
 class GameOverScene: SKScene {
     
+    //MARK: -Properties
     var background: SKEmitterNode!
     var explosion: SKEmitterNode!
     
@@ -21,6 +22,7 @@ class GameOverScene: SKScene {
     
     var gameOverSound: AVAudioPlayer?
     
+    //MARK: -Lifecycle
     override func didMove(to view: SKView) {
         background = self.childNode(withName: "background") as? SKEmitterNode
         background.advanceSimulationTime(3)

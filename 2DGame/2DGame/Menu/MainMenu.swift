@@ -9,13 +9,14 @@ import SpriteKit
 
 class MainMenu: SKScene {
     
+    //MARK: -Properties
     var backgroundMenu: SKEmitterNode!
-
     var newGameButton: SKSpriteNode!
     var levelButton: SKSpriteNode!
     var infoButton: SKSpriteNode!
     var labelLevel: SKLabelNode!
     
+    //MARK: - Lifecycle
     override func didMove(to view: SKView) {
         backgroundMenu = self.childNode(withName: "background") as? SKEmitterNode
         backgroundMenu.advanceSimulationTime(3)
@@ -37,6 +38,8 @@ class MainMenu: SKScene {
         }
     }
     
+    
+    //MARK: -Touch Handling
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         
@@ -58,6 +61,7 @@ class MainMenu: SKScene {
         }
     }
     
+    //MARK: - Helper Methods
     func changeLevel() {
         let userLevel = UserDefaults.standard
         if labelLevel.text == "Easy" {
